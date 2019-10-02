@@ -11,17 +11,21 @@ import {
   View,
 } from 'react-native';
 import * as yup from 'yup';
-// import FormikUserInput from './components/FormikUserInput';
-// import UserInput from './components/UserInput.component';
 import {Formik,Form,Field} from 'formik';
 
 
 const validationSchema = yup.object().shape({
-  cardNumber: yup
-    .number()
-    .required()
-    .label('Card Number'),
+  cardNumber: yup.number().required().label('Card Number').
+  test('length','Should have 16 digits', val => val.toString().length === 5),
+  expDate: yup.string().required().label('Expiration Date').matches(/[\d]{2}\/[\d]{2}/,'Exp Date format mm/yy'),
+  cvv: yup.number().required().label('CVV').min(3,'CVV should contain 3 or 4 digits').max(4,'CVV should contain 3 or 4 digits'),
+  firstname: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
+  lastName: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
+  secretQuestion: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
+  secretAnswer: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
 });
+
+
  const FormikUserInput = props => (
    <ScrollView>
     <Formik
@@ -63,7 +67,7 @@ const validationSchema = yup.object().shape({
               }}
               onChangeText={formikProps.handleChange('expDate')}
               onBlur={formikProps.handleBlur('expDate')}
-              secureTextEntry
+
             />
             <Text style={{ color: 'red' }}>
               {formikProps.touched.expDate && formikProps.errors.expDate}
@@ -82,7 +86,7 @@ const validationSchema = yup.object().shape({
               }}
               onChangeText={formikProps.handleChange('cvv')}
               onBlur={formikProps.handleBlur('cvv')}
-              secureTextEntry
+
             />
             <Text style={{ color: 'red' }}>
               {formikProps.touched.cvv && formikProps.errors.cvv}
@@ -101,7 +105,7 @@ const validationSchema = yup.object().shape({
               }}
               onChangeText={formikProps.handleChange('firstname')}
               onBlur={formikProps.handleBlur('firstname')}
-              secureTextEntry
+
             />
             <Text style={{ color: 'red' }}>
               {formikProps.touched.firstname && formikProps.errors.firstname}
@@ -120,7 +124,6 @@ const validationSchema = yup.object().shape({
               }}
               onChangeText={formikProps.handleChange('lastName')}
               onBlur={formikProps.handleBlur('lastName')}
-              secureTextEntry
             />
             <Text style={{ color: 'red' }}>
               {formikProps.touched.lastName && formikProps.errors.lastName}
@@ -139,7 +142,6 @@ const validationSchema = yup.object().shape({
               }}
               onChangeText={formikProps.handleChange('secretQuestion')}
               onBlur={formikProps.handleBlur('secretQuestion')}
-              secureTextEntry
             />
             <Text style={{ color: 'red' }}>
               {formikProps.touched.secretQuestion && formikProps.errors.secretQuestion}
@@ -158,7 +160,6 @@ const validationSchema = yup.object().shape({
               }}
               onChangeText={formikProps.handleChange('secretAnswer')}
               onBlur={formikProps.handleBlur('secretAnswer')}
-              secureTextEntry
             />
             <Text style={{ color: 'red' }}>
               {formikProps.touched.secretAnswer && formikProps.errors.secretAnswer}
