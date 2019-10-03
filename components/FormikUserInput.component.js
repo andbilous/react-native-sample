@@ -5,13 +5,13 @@ import {
   Text,
   TextInput,
   Button,
-  ActivityIndicator,
   ScrollView,
   StyleSheet,
   View,
 } from 'react-native';
 import * as yup from 'yup';
-import {Formik} from 'formik';
+import {Formik, Form} from 'formik';
+import PropTypes from 'prop-types';
 
 
 const validationSchema = yup.object().shape({
@@ -27,18 +27,16 @@ const validationSchema = yup.object().shape({
 
 
  function FormikUserInput(props){
+  
   const [formFilled, setformFilled] = useState(false);
   return (
     <ScrollView >
      <Formik
-       // initialValues={{
-       //   cardNumber:1111111111111111,expDate:'12/20',cvv:123,firstname:'James',lastName:'Lam',secretQuestion:'Question',secretAnswer:'Answer',
-       // }}
 
        onSubmit={(values, actions) => {
          props.onHandleSubmit(values);
        }}
-       
+
        validationSchema={validationSchema} >
        {formikProps => (
          <React.Fragment>
@@ -174,20 +172,19 @@ const validationSchema = yup.object().shape({
            <View><Button title="Submit" onPress={formikProps.handleSubmit} disabled={!formFilled}/></View>
 
           {formikProps.isValid ?  setformFilled(true) : null}
-          {/* {formikProps.isSubmitting ? <ActivityIndicator/>  : null} */}
-
-           {/* {formikProps.isSubmitting ? (
-             <ActivityIndicator />
-             setformFilled(true);
-           ) : (
-             <Button title="Submit" onPress={formikProps.handleSubmit} disabled={formFilled}/>
-           )} */}
          </React.Fragment>
        )}
      </Formik>
   </ScrollView>
   );
  }
+ FormikUserInput.defaultProps = {
+    onHandleSubmit: ()=>{'userData'}
+  }
+  FormikUserInput.propTypes = {
+    onHandleSubmit: PropTypes.func
+  }
+ 
 
  const styles = StyleSheet.create({
    container:{

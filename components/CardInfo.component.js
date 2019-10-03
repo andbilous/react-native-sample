@@ -1,16 +1,11 @@
 import React from 'react';
-import {Button, TextInput, View} from 'react-native';
-import {Formik} from 'formik';
-import CardDetailsContext from './CardDetailsContext';
+import { TextInput, View} from 'react-native';
 
-const CardInfo = () => (
-  <CardDetailsContext.Consumer>
-    {context => (
+
+const CardInfo = props => (
       <View>
-        <TextInput>Card INfo</TextInput>
-        <TextInput>{context.length}</TextInput>
+        <TextInput>{`Card Info : ${props.cardType}  `}</TextInput>
       </View>
-    )}
-  </CardDetailsContext.Consumer>
-);
+    );
+
 export default CardInfo;

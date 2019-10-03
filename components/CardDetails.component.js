@@ -1,25 +1,43 @@
 import React from 'react';
-import {Button, TextInput, View} from 'react-native';
-import {Formik} from 'formik';
-import CardDetailsContext from './CardDetailsContext';
-import CardInfo from './CardInfo.component';
+import { TextInput, View} from 'react-native';
+import PropTypes from 'prop-types';
 
 class CardDetails extends React.Component {
+  componentDidMount(){
+    this.props.getCardType(this.state.cardType);
+    this.setState({cardType:this.props.cardNumber})
+  }
+  componentDidUpdate(prevProps,prevState){
+    if (prevState.cardType!==this.state.cardType){
+      this.props.getCardType(this.state.cardType);
+    }
+  }
   constructor() {
     super();
     this.state = {
-      cardType: 'MS',
+      cardType: 'Visa Card',
     };
+    
+  }
+  static propTypes = {
+    cardNumber:PropTypes.number,
+    getCardType:PropTypes.func
+  }
+ 
+  static defaultProps = {
+    cardNumber:'Visa'
   }
 
   render() {
+    const {cardNumber}= this.props;
+    if (cardNumber>2000){
+        this.setState({cardType:'Master Card'})
+    }
     return (
-      <CardDetailsContext.Provider value={{cardType: this.state.cardType}}>
-        <View>
+        <View >
           <TextInput>Card Details Output</TextInput>
           <TextInput>{this.props.cardNumber}</TextInput>
         </View>
-      </CardDetailsContext.Provider>
     );
   }
 }

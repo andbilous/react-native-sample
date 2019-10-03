@@ -1,17 +1,26 @@
 import React, {useState} from 'react';
-import {Button, TextInput, View} from 'react-native';
-import {Formik} from 'formik';
+import {Button, TextInput, View,FlatList,Text} from 'react-native';
+import PropTypes from 'prop-types';
 
 import CardDetails from './CardDetails.component';
 import CardInfo from './CardInfo.component';
 
 class FormikUserOutput extends React.Component {
+  static propTypes = {
+    title: PropTypes.string
+  }
+ 
+  static defaultProps = {
+    title: 'React'
+  }
+
   constructor() {
     super();
     this.state = {
       isVisible: false,
       timerId: undefined,
       start: undefined,
+      cardType:''
     };
   }
   startTimer = () => {
@@ -29,6 +38,7 @@ class FormikUserOutput extends React.Component {
       start: Date.now(),
     });
   };
+ 
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.userData === this.props.userData) {
@@ -41,16 +51,24 @@ class FormikUserOutput extends React.Component {
     clearTimeout(timerId);
     this.startTimer();
   }
+  setCardType = (cardType) => {
+    console.log('Data from CHILD ::  ', cardType);
+    this.setState({cardType});
+}
+
 
   render() {
     const {userData} = this.props;
     if (this.state.isVisible) {
       return (
         <View>
-          <TextInput>FormikUserOutput</TextInput>
+          <TextInput>Formik User Output</TextInput>
           <TextInput>{Object.values(userData)}</TextInput>
-          <CardDetails cardNumber={userData.cardNumber} />
-          <CardInfo />
+          <FlatList style={{flexDirection:"column"}}
+          data={[Object.values(userData)]}
+              renderItem={({item}) => <Text key={item}>{item}</Text>} />
+          <CardDetails cardNumber={userData.cardNumber} getCardType={this.setCardType}/>
+          <CardInfo cardType={this.state.cardType}/>
         </View>
       );
     } else {
@@ -58,5 +76,6 @@ class FormikUserOutput extends React.Component {
     }
   }
 }
+
 
 export default FormikUserOutput;

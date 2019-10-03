@@ -10,7 +10,6 @@ import {
   View,
   ScrollView,
 } from 'react-native';
-import CardDetailsContext from './components/CardDetailsContext';
 // import {Header} from 'react-native-elements';
 import FormikUserInput from './components/FormikUserInput.component';
 import UserInput from './components/UserInput.component';
