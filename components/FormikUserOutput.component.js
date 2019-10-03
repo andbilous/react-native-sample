@@ -64,9 +64,14 @@ class FormikUserOutput extends React.Component {
         <View>
           <TextInput>Formik User Output</TextInput>
           <TextInput>{Object.values(userData)}</TextInput>
-          <FlatList style={{flexDirection:"column"}}
+          {/* <FlatList style={{flexDirection:"column"}}
           data={[Object.values(userData)]}
-              renderItem={({item}) => <Text key={item}>{item}</Text>} />
+              renderItem={({item}) => <Text key={item}>{item}</Text>} /> */}
+              <FlatList
+        data={DATA}
+        renderItem={({ item }) => <Item title={item.title} />}
+        keyExtractor={item => item.id}
+      />
           <CardDetails cardNumber={userData.cardNumber} getCardType={this.setCardType}/>
           <CardInfo cardType={this.state.cardType}/>
         </View>

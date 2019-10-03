@@ -16,6 +16,7 @@ class CardDetails extends React.Component {
     super();
     this.state = {
       cardType: 'Visa Card',
+      cardNumber:null
     };
     
   }
@@ -25,7 +26,8 @@ class CardDetails extends React.Component {
   }
  
   static defaultProps = {
-    cardNumber:'Visa'
+    cardType:'Visa',
+    cardNumber:1
   }
 
   render() {

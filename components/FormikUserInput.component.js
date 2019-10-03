@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import * as yup from 'yup';
-import {Formik, Form} from 'formik';
+import {Formik} from 'formik';
 import PropTypes from 'prop-types';
 
 
@@ -30,7 +30,7 @@ const validationSchema = yup.object().shape({
   
   const [formFilled, setformFilled] = useState(false);
   return (
-    <ScrollView >
+    <ScrollView style={styles.container}>
      <Formik
 
        onSubmit={(values, actions) => {
@@ -41,12 +41,12 @@ const validationSchema = yup.object().shape({
        {formikProps => (
          <React.Fragment>
            <View style={styles.container}>
-             <Text style={{ marginBottom: 3 }}>CardNumber</Text>
+             <Text>CardNumber</Text>
              <TextInput
                placeholder="4111111111111111"
                style={{
                  borderWidth: 1,
-                 borderColor: 'black',
+                 borderColor: 'blue',
                  padding: 10,
                  marginBottom: 3,
                }}
@@ -169,7 +169,7 @@ const validationSchema = yup.object().shape({
                {formikProps.touched.secretAnswer && formikProps.errors.secretAnswer}
              </Text>
            </View>
-           <View><Button title="Submit" onPress={formikProps.handleSubmit} disabled={!formFilled}/></View>
+           <View><Button style={styles.button} title="Submit" onPress={formikProps.handleSubmit} disabled={!formFilled}/></View>
 
           {formikProps.isValid ?  setformFilled(true) : null}
          </React.Fragment>
@@ -188,7 +188,13 @@ const validationSchema = yup.object().shape({
 
  const styles = StyleSheet.create({
    container:{
-     justifyContent: 'space-around',
+     margin: 40
    },
+   button:{
+    color: 'red',
+    marginTop: 20,
+    padding: 20,
+    backgroundColor: 'green'
+   }
  });
 export default FormikUserInput;
