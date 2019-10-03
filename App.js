@@ -10,11 +10,13 @@ import {
   View,
   ScrollView,
 } from 'react-native';
+import CardDetailsContext from './components/CardDetailsContext';
 // import {Header} from 'react-native-elements';
-import FormikUserInput from './components/FormikUserInput';
+import FormikUserInput from './components/FormikUserInput.component';
 import UserInput from './components/UserInput.component';
 import FormikUserOutput from './components/FormikUserOutput.component';
 import UserOutput from './components/UserOutput.component';
+
 
 
 class App extends React.Component {
@@ -22,12 +24,7 @@ class App extends React.Component {
     super();
     this.state = {userData:{}};
   }
-  componentDidUpdate(prevState){
-    if (prevState.userData !== this.state.userData){
-      return true;
-    }
-    return false;
-  }
+
   onHandleSubmit = userData =>{
     console.log(userData);
     this.setState({
@@ -38,7 +35,7 @@ class App extends React.Component {
   render(){
     const {userData} = this.state;
     return (
-      <SafeAreaView style={{marginTop: 90}} >
+        <SafeAreaView  >
           <FormikUserInput onHandleSubmit={this.onHandleSubmit}/>
           {/* <UserInput /> */}
           <FormikUserOutput userData={userData}/>
