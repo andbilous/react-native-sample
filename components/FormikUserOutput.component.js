@@ -1,35 +1,37 @@
+// @flow
 import React, {useState} from 'react';
-import {Button, TextInput, View,FlatList,Text} from 'react-native';
-import PropTypes from 'prop-types';
+import {Button, TextInput, View,FlatList,Text,StyleSheet} from 'react-native';
+import CardTypeDefiner from './CardTypeDefiner.component';
+import CardTypeOutput from './CardTypeOutput.component';
 
-import CardDetails from './CardDetails.component';
-import CardInfo from './CardInfo.component';
+type Props = {
+    dataToRenderFromApp: Object
+};
 
-class FormikUserOutput extends React.Component {
-  static propTypes = {
-    title: PropTypes.string
-  }
- 
-  static defaultProps = {
-    title: 'React'
-  }
+type State = {
+     isVisible: bool,
+      timerId: Object,
+      start: number,
+      cardType: string
+}
 
+class FormikUserOutput extends React.Component<Props, State> {
   constructor() {
     super();
     this.state = {
       isVisible: false,
       timerId: undefined,
-      start: undefined,
-      cardType:''
+      start: 0,
+      cardType:'',
     };
   }
+
   startTimer = () => {
     const timerId = setTimeout(() => {
-      console.log('clear');
       this.setState({
         isVisible: false,
         timerId: false,
-        start: undefined,
+        start: 0,
       });
     }, 5000);
     this.setState({
@@ -38,49 +40,65 @@ class FormikUserOutput extends React.Component {
       start: Date.now(),
     });
   };
- 
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.userData === this.props.userData) {
+
+  componentDidUpdate(prevProps:Props, prevState:State) {
+    if (prevProps.dataToRenderFromApp === this.props.dataToRenderFromApp) {
       return;
     }
     if (!this.state.isVisible) {
       return this.startTimer();
     }
-    const timerId = this.state.timerId;
-    clearTimeout(timerId);
+    clearTimeout(this.state.timerId);
     this.startTimer();
-  }
-  setCardType = (cardType) => {
+   }
+  setCardType = (cardType:string) => {
     console.log('Data from CHILD ::  ', cardType);
     this.setState({cardType});
 }
 
 
+
   render() {
-    const {userData} = this.props;
+    console.log('Props in Output',this.props);
+    const {
+      cardNumber,cvv,expDate,firstname,
+      lastName,secretQuestion,
+      secretAnswer,cardType
+    } = this.props.dataToRenderFromApp;
     if (this.state.isVisible) {
       return (
         <View>
-          <TextInput>Formik User Output</TextInput>
-          <TextInput>{Object.values(userData)}</TextInput>
-          {/* <FlatList style={{flexDirection:"column"}}
-          data={[Object.values(userData)]}
-              renderItem={({item}) => <Text key={item}>{item}</Text>} /> */}
-              <FlatList
-        data={DATA}
-        renderItem={({ item }) => <Item title={item.title} />}
-        keyExtractor={item => item.id}
-      />
-          <CardDetails cardNumber={userData.cardNumber} getCardType={this.setCardType}/>
-          <CardInfo cardType={this.state.cardType}/>
-        </View>
+        <Text style={styles.header}>User Card Details</Text>
+        <Text style={styles.label}>Your Card Number : {cardNumber}</Text>
+         <Text style={styles.label}>Your CVV Code : {cvv}</Text>
+           <Text style={styles.label}>Your Expiration Date : {expDate}</Text>
+           <Text style={styles.label}>Your First Name : {firstname}</Text>
+           <Text style={styles.label}>Your Last Name : {lastName}</Text>
+            <Text style={styles.label}>Your Secret Question : {secretQuestion}</Text>
+             <Text style={styles.label}>Your Secret Answer : {secretAnswer}</Text>
+             <CardTypeDefiner cardNumber={cardNumber}/>
+                </View>
       );
     } else {
       return null;
     }
   }
 }
+const styles = StyleSheet.create({
+  header:{
+        fontSize: 18,
+        backgroundColor: '#2F95D6',
+        borderBottomColor: '#ffffff',
+        borderBottomWidth: 3,
+        paddingLeft:130,
+        marginBottom:5
+  },
+  label:{
+    backgroundColor:'#FFC2B5',
+    marginBottom:5
+  }
+});
 
 
 export default FormikUserOutput;

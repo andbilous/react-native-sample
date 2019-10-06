@@ -1,17 +1,17 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
+
+// @flow
 import React,{useState} from 'react';
 import {
   Text,
   TextInput,
-  Button,
+  TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Button,
   View,
 } from 'react-native';
 import * as yup from 'yup';
 import {Formik} from 'formik';
-import PropTypes from 'prop-types';
 
 
 const validationSchema = yup.object().shape({
@@ -24,24 +24,26 @@ const validationSchema = yup.object().shape({
   secretAnswer: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
 });
 
+type Props = {
+  updateStateFromFormikUserInput: (Object)=>Object
+};
 
 
- function FormikUserInput(props){
+ function FormikUserInput({updateStateFromFormikUserInput}:Props) {
   
   const [formFilled, setformFilled] = useState(false);
   return (
     <ScrollView style={styles.container}>
      <Formik
-
        onSubmit={(values, actions) => {
-         props.onHandleSubmit(values);
+         updateStateFromFormikUserInput(values);
        }}
 
        validationSchema={validationSchema} >
        {formikProps => (
-         <React.Fragment>
-           <View style={styles.container}>
-             <Text>CardNumber</Text>
+          <View style={styles.container}>
+           <View>
+             <Text>Card Number</Text>
              <TextInput
                placeholder="4111111111111111"
                style={{
@@ -59,13 +61,13 @@ const validationSchema = yup.object().shape({
              </Text>
            </View>
 
-           <View >
-             <Text style={{ marginBottom: 3 }}>Expiration Date</Text>
+           <View style={{width:220}}>
+             <Text>Expiration Date</Text>
              <TextInput
                placeholder="12/20"
                style={{
                  borderWidth: 1,
-                 borderColor: 'black',
+                 borderColor: 'blue',
                  padding: 10,
                  marginBottom: 3,
                }}
@@ -78,13 +80,13 @@ const validationSchema = yup.object().shape({
              </Text>
            </View>
 
-           <View>
+           <View style={styles.cvvField}>
              <Text style={{ marginBottom: 3 }}>CVV</Text>
              <TextInput
                placeholder="331"
                style={{
                  borderWidth: 1,
-                 borderColor: 'black',
+                 borderColor: 'blue',
                  padding: 10,
                  marginBottom: 3,
                }}
@@ -102,8 +104,8 @@ const validationSchema = yup.object().shape({
              <TextInput
                placeholder="firstname"
                style={{
-                 borderWidth: 1,
-                 borderColor: 'black',
+                  borderWidth: 1,
+                 borderColor: 'blue',
                  padding: 10,
                  marginBottom: 3,
                }}
@@ -122,7 +124,7 @@ const validationSchema = yup.object().shape({
                placeholder="lastName"
                style={{
                  borderWidth: 1,
-                 borderColor: 'black',
+                 borderColor: 'blue',
                  padding: 10,
                  marginBottom: 3,
                }}
@@ -140,7 +142,7 @@ const validationSchema = yup.object().shape({
                placeholder="secretQuestion"
                style={{
                  borderWidth: 1,
-                 borderColor: 'black',
+                 borderColor: 'blue',
                  padding: 10,
                  marginBottom: 3,
                }}
@@ -157,8 +159,8 @@ const validationSchema = yup.object().shape({
              <TextInput
                placeholder="secretAnswer"
                style={{
-                 borderWidth: 1,
-                 borderColor: 'black',
+                  borderWidth: 1,
+                 borderColor: 'blue',
                  padding: 10,
                  marginBottom: 3,
                }}
@@ -169,32 +171,40 @@ const validationSchema = yup.object().shape({
                {formikProps.touched.secretAnswer && formikProps.errors.secretAnswer}
              </Text>
            </View>
-           <View><Button style={styles.button} title="Submit" onPress={formikProps.handleSubmit} disabled={!formFilled}/></View>
-
+           <View>
+           <TouchableOpacity style={styles.button} onPress={formikProps.handleSubmit} disabled={!formFilled}>
+           <Text>Submit Form</Text></TouchableOpacity>
+           </View>
           {formikProps.isValid ?  setformFilled(true) : null}
-         </React.Fragment>
+          </View>
        )}
      </Formik>
   </ScrollView>
   );
  }
- FormikUserInput.defaultProps = {
-    onHandleSubmit: ()=>{'userData'}
-  }
-  FormikUserInput.propTypes = {
-    onHandleSubmit: PropTypes.func
-  }
- 
+
 
  const styles = StyleSheet.create({
    container:{
-     margin: 40
+     margin: 20,
+     shadowColor:'red',
+     shadowOpacity:0.3,
+     shadowRadius: 2
    },
    button:{
-    color: 'red',
-    marginTop: 20,
-    padding: 20,
-    backgroundColor: 'green'
+   color: '#fff',
+textTransform: 'uppercase',
+backgroundColor: '#ed3330',
+padding: 20,
+borderRadius: 5,
+paddingLeft:120
+   },
+   cvvField:{
+     width:80,
+     marginTop:-76,
+     alignSelf:'flex-end'
    }
  });
+
+
 export default FormikUserInput;

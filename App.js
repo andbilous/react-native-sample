@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable no-unused-vars */
+// @flow
 import React from 'react';
 import {
   SafeAreaView,
@@ -10,36 +9,47 @@ import {
   View,
   ScrollView,
 } from 'react-native';
-// import {Header} from 'react-native-elements';
 import FormikUserInput from './components/FormikUserInput.component';
-import UserInput from './components/UserInput.component';
 import FormikUserOutput from './components/FormikUserOutput.component';
-import UserOutput from './components/UserOutput.component';
+import CardTypeDefiner from './components/CardTypeDefiner.component';
 
 
 
-class App extends React.Component {
+type State = {
+    userData:Object,
+    cardNumber:number
+}
+
+class App extends React.Component<State> {
   constructor(){
     super();
-    this.state = {userData:{}};
+    this.state={
+    userData:{},
+    cardNumber: 111,
+    }
   }
 
-  onHandleSubmit = userData =>{
-    console.log(userData);
-    this.setState({
-      userData,
-    });
+  componentDidUpdate(prevProps, prevState){
+    if(prevState!==this.state){
+      updateStateFromCardDetails=cardType=>{
+    this.setState({cardType});
+  }
+    }
+  }
 
+  updateStateFromFormikUserInput = (userData:Object) =>{
+    this.setState({userData});
+  }
+  updateStateFromCardDetails=cardType=>{
+    this.setState({cardType});
   }
   render(){
-    const {userData} = this.state;
     return (
-        <SafeAreaView  >
-          <FormikUserInput onHandleSubmit={this.onHandleSubmit}/>
-          {/* <UserInput /> */}
-          <FormikUserOutput userData={userData}/>
-          </SafeAreaView>
-          );
+          <View>
+          <FormikUserInput updateStateFromFormikUserInput={this.updateStateFromFormikUserInput}/>
+          <FormikUserOutput dataToRenderFromApp={this.state.userData}/>
+          </View>
+         );
   }
 
 }
