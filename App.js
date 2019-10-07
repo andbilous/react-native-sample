@@ -13,25 +13,27 @@ import FormikUserInput from './components/FormikUserInput.component';
 import FormikUserOutput from './components/FormikUserOutput.component';
 import CardTypeDefiner from './components/CardTypeDefiner.component';
 
-
+type Props={}
 
 type State = {
     userData:Object,
-    cardNumber:number
+    cardNumber:number,
+    cardType:string
 }
 
-class App extends React.Component<State> {
+class App extends React.Component<Props,State> {
   constructor(){
     super();
     this.state={
     userData:{},
     cardNumber: 111,
+    cardType:''
     }
   }
 
-  componentDidUpdate(prevProps, prevState){
+  componentDidUpdate(prevProps:Props, prevState:State){
     if(prevState!==this.state){
-      this.updateStateFromCardDetails=cardType=>{
+      this.updateStateFromCardDetails=(cardType:string)=>{
     this.setState({cardType});
   }
     }
@@ -40,7 +42,7 @@ class App extends React.Component<State> {
   updateStateFromFormikUserInput = (userData:Object) =>{
     this.setState({userData});
   }
-  updateStateFromCardDetails=cardType=>{
+  updateStateFromCardDetails=(cardType:string)=>{
     this.setState({cardType});
   }
   render(){
