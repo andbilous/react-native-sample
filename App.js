@@ -31,7 +31,7 @@ class App extends React.Component<State> {
 
   componentDidUpdate(prevProps, prevState){
     if(prevState!==this.state){
-      updateStateFromCardDetails=cardType=>{
+      this.updateStateFromCardDetails=cardType=>{
     this.setState({cardType});
   }
     }
