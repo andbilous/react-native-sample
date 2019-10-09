@@ -12,10 +12,12 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
+    "@welldone-software/why-did-you-render": "^3.3.7",
     "formik": "^1.5.8",
     "react": "16.9.0",
     "react-native": "0.61.1",
     "react-native-elements": "^1.2.3",
+    "react-navigation": "^4.0.10",
     "yup": "^0.27.0"
   },
   "devDependencies": {
@@ -47,8 +49,8 @@
   },
   "lint-staged": {
     "*.{js,jsx}": [
-    "eslint --fix",
-    "git add"
+      "eslint --fix",
+      "git add"
     ]
-    }
+  }
 }

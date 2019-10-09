@@ -9,9 +9,9 @@ import {
   View,
   ScrollView,
 } from 'react-native';
-import FormikUserInput from './components/FormikUserInput.component';
-import FormikUserOutput from './components/FormikUserOutput.component';
-import CardTypeDefiner from './components/CardTypeDefiner.component';
+import FormikUserInput from './src/components/FormikUserInput';
+import FormikUserOutput from './src/components/FormikUserOutput';
+import CardTypeDefiner from './src/components/CardTypeDefiner';
 
 type Props={}
 
@@ -21,38 +21,39 @@ type State = {
     cardType:string
 }
 
-class App extends React.Component<Props,State> {
-  constructor(){
+class App extends React.Component<Props, State> {
+  constructor() {
     super();
-    this.state={
-    userData:{},
-    cardNumber: 111,
-    cardType:''
+    this.state = {
+      userData: {},
+      cardNumber: 111,
+      cardType: ''
+    };
+  }
+
+  componentDidUpdate(prevProps:Props, prevState:State) {
+    if (prevState !== this.state) {
+      this.updateStateFromCardDetails = (cardType:string) => {
+        this.setState({ cardType });
+      };
     }
   }
 
-  componentDidUpdate(prevProps:Props, prevState:State){
-    if(prevState!==this.state){
-      this.updateStateFromCardDetails=(cardType:string)=>{
-    this.setState({cardType});
-  }
-    }
+  updateStateFromFormikUserInput = (userData:Object) => {
+    this.setState({ userData });
   }
 
-  updateStateFromFormikUserInput = (userData:Object) =>{
-    this.setState({userData});
+  updateStateFromCardDetails=(cardType:string) => {
+    this.setState({ cardType });
   }
-  updateStateFromCardDetails=(cardType:string)=>{
-    this.setState({cardType});
-  }
-  render(){
+
+  render() {
     return (
-          <View>
-          <FormikUserInput updateStateFromFormikUserInput={this.updateStateFromFormikUserInput}/>
-          <FormikUserOutput dataToRenderFromApp={this.state.userData}/>
-          </View>
-         );
+      <View>
+        <FormikUserInput updateStateFromFormikUserInput={this.updateStateFromFormikUserInput} />
+        <FormikUserOutput dataToRenderFromApp={this.state.userData} />
+      </View>
+    );
   }
-
 }
 export default App;
