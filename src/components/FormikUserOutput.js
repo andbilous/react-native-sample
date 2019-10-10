@@ -10,7 +10,6 @@ type Props = {
 type State = {
      isVisible: boolean,
       timerId: Object,
-      start: number,
       cardType: string
 }
 
@@ -19,10 +18,23 @@ class FormikUserOutput extends React.Component<Props, State> {
     super();
     this.state = {
       isVisible: false,
-      timerId: undefined,
-      start: 0,
-      cardType: '',
+      timerId: undefined
     };
+  }
+
+  componentDidUpdate(prevProps:Props) {
+    const { dataToRenderFromApp } = this.props;
+    const { timerId, isVisible } = this.state;
+    if (prevProps.dataToRenderFromApp === dataToRenderFromApp) {
+      return;
+    }
+
+    if (!isVisible) {
+      return this.startTimer();
+    }
+
+    clearTimeout(timerId);
+    this.startTimer();
   }
 
   startTimer = () => {
@@ -32,7 +44,7 @@ class FormikUserOutput extends React.Component<Props, State> {
         timerId: false,
         start: 0,
       });
-    }, 5000);
+    }, 5000000);
 
     this.setState({
       isVisible: true,
@@ -41,63 +53,60 @@ class FormikUserOutput extends React.Component<Props, State> {
     });
   };
 
-  componentDidUpdate(prevProps:Props, prevState:State) {
-    if (prevProps.dataToRenderFromApp === this.props.dataToRenderFromApp) {
-      return;
-    }
-
-    if (!this.state.isVisible) {
-      return this.startTimer();
-    }
-
-    clearTimeout(this.state.timerId);
-    this.startTimer();
-  }
-
   render() {
-
+    const { dataToRenderFromApp } = this.props;
+    const { isVisible } = this.state;
     const {
       cardNumber, cvv, expDate, firstName,
       lastName, secretQuestion,
       secretAnswer,
-    } = this.props.dataToRenderFromApp;
-    if (!this.state.isVisible) return null;
+    } = dataToRenderFromApp;
+    if (!isVisible) return null;
 
-      return (
-        <View>
-          <Text style={styles.header}>User Card Details</Text>
-          <Text style={styles.label}>
-Your Card Number :
-            {cardNumber}
-          </Text>
-          <Text style={styles.label}>
-Your CVV Code :
-            {cvv}
-          </Text>
-          <Text style={styles.label}>
-Your Expiration Date :
+    return (
+      <View>
+        <Text style={styles.header}>User Card Details</Text>
+        <View style={styles.valuesContainer}>
+          <Text style={styles.label}>Your Card Number :</Text>
+          <Text style={styles.value}>{cardNumber}</Text>
+        </View>
+
+        <View style={styles.valuesContainer}>
+          <Text style={styles.label}>Your CVV Code :</Text>
+          <Text style={styles.value}>{cvv}</Text>
+        </View>
+
+        <View style={styles.valuesContainer}>
+          <Text style={styles.label}>Your Expiration Date :</Text>
+          <Text style={styles.value}>
+            {' '}
             {expDate}
           </Text>
-          <Text style={styles.label}>
-Your First Name :
-            {firstName}
-          </Text>
-          <Text style={styles.label}>
-Your Last Name :
-            {lastName}
-          </Text>
-          <Text style={styles.label}>
-Your Secret Question :
-            {secretQuestion}
-          </Text>
-          <Text style={styles.label}>
-Your Secret Answer :
-            {secretAnswer}
-          </Text>
-          <CardTypeDefiner cardNumber={cardNumber} />
         </View>
-      );
-    }
+
+        <View style={styles.valuesContainer}>
+          <Text style={styles.label}>Your First Name :</Text>
+          <Text style={styles.value}>{firstName}</Text>
+        </View>
+
+        <View style={styles.valuesContainer}>
+          <Text style={styles.label}>Your Last Name :</Text>
+          <Text style={styles.value}>{lastName}</Text>
+        </View>
+
+        <View style={styles.valuesContainer}>
+          <Text style={styles.label}>Your Secret Question :</Text>
+          <Text style={styles.value}>{secretQuestion}</Text>
+        </View>
+
+        <View style={styles.valuesContainer}>
+          <Text style={styles.label}>Your Secret Answer :</Text>
+          <Text style={styles.value}>{secretAnswer}</Text>
+        </View>
+        <CardTypeDefiner cardNumber={cardNumber} />
+      </View>
+    );
+  }
 }
 const styles = StyleSheet.create({
   header: {
@@ -105,12 +114,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#2F95D6',
     borderBottomColor: '#ffffff',
     borderBottomWidth: 3,
-    paddingLeft: 130,
-    marginBottom: 5
+    textAlign: 'center',
+    marginBottom: 2
+  },
+  valuesContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   label: {
     backgroundColor: '#FFC2B5',
-    marginBottom: 5
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  value: {
+    textAlign: 'center'
   }
 });
 

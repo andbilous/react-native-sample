@@ -1,6 +1,8 @@
 // @flow
 import React from 'react';
-import { TextInput, View } from 'react-native';
+import {
+  StyleSheet, TextInput, View, Text
+} from 'react-native';
 
 
 type Props = {
@@ -8,9 +10,17 @@ type Props = {
 };
 
 const CardTypeOutput = ({ cardType }: Props) => (
-  <View>
-    <TextInput>{`Card Type : ${cardType}`}</TextInput>
+  <View style={styles.container}>
+    <Text>Card Type : </Text>
+    <TextInput>{cardType}</TextInput>
   </View>
 );
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }
+});
 
 export default CardTypeOutput;

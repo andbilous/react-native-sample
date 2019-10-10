@@ -1,33 +1,21 @@
 // @flow
 import React from 'react';
-import {
-  SafeAreaView,
-  Text,
-  TextInput,
-  Button,
-  ActivityIndicator,
-  View,
-  ScrollView,
-} from 'react-native';
+import { SafeAreaView } from 'react-native';
 import FormikUserInput from './src/components/FormikUserInput';
 import FormikUserOutput from './src/components/FormikUserOutput';
-import CardTypeDefiner from './src/components/CardTypeDefiner';
 
-type Props={}
+type Props={ }
 
 type State = {
     userData:Object,
-    cardNumber:number,
-    cardType:string
+    cardNumber:number
 }
 
 class App extends React.Component<Props, State> {
   constructor() {
     super();
     this.state = {
-      userData: {},
-      cardNumber: 111,
-      cardType: ''
+      userData: { }
     };
   }
 
@@ -48,11 +36,12 @@ class App extends React.Component<Props, State> {
   }
 
   render() {
+    const { userData } = this.state;
     return (
-      <View>
+      <SafeAreaView>
         <FormikUserInput updateStateFromFormikUserInput={this.updateStateFromFormikUserInput} />
-        <FormikUserOutput dataToRenderFromApp={this.state.userData} />
-      </View>
+        <FormikUserOutput dataToRenderFromApp={userData} />
+      </SafeAreaView>
     );
   }
 }
