@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import * as yup from 'yup';
 import { Formik } from 'formik';
+import {Login} from '../server/ApiCalls';
+
 
 
 const validationSchema = yup.object().shape({
@@ -33,7 +35,7 @@ function FormikUserInput({ updateStateFromFormikUserInput }:Props) {
       <Formik
         validateOnChange={false}
         validateOnBlur={false}
-        onSubmit={(values) => updateStateFromFormikUserInput(values)}
+        onSubmit={(values) => Login(values).then((data) => console.log(data))}
         validationSchema={validationSchema}
       >
         {(formikProps) => (

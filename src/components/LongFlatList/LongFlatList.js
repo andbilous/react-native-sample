@@ -10,7 +10,7 @@ const length=100;
       )
   }
 
-export default class SampleFlatList extends Component {
+export default class LongFlatList extends Component {
   renderItem({ item, index }) {
     return (
       <View key={index} style={styles.listItem}>

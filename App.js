@@ -3,6 +3,8 @@ import React from 'react';
 import { SafeAreaView } from 'react-native';
 import FormikUserInput from './src/components/FormikUserInput';
 import FormikUserOutput from './src/components/FormikUserOutput';
+import LongFlatList from './src/components/LongFlatList/LongFlatList';
+import ProductForm from './src/components/ProductForm/ProductForm';
 
 type Props={ }
 
@@ -39,8 +41,11 @@ class App extends React.Component<Props, State> {
     const { userData } = this.state;
     return (
       <SafeAreaView>
-        <FormikUserInput updateStateFromFormikUserInput={this.updateStateFromFormikUserInput} />
-        <FormikUserOutput dataToRenderFromApp={userData} />
+        {/*<FormikUserInput updateStateFromFormikUserInput={this.updateStateFromFormikUserInput} />*/}
+        {/*<FormikUserOutput dataToRenderFromApp={userData} />*/}
+        {/*<LongFlatList/>*/}
+        {/*<LongFlatList />*/}
+        <ProductForm />
       </SafeAreaView>
     );
   }
