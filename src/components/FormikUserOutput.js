@@ -44,7 +44,7 @@ class FormikUserOutput extends React.Component<Props, State> {
         timerId: false,
         start: 0,
       });
-    }, 5000000);
+    }, 5000);
 
     this.setState({
       isVisible: true,

@@ -6,37 +6,69 @@ import {
   TextInput,
   ScrollView,
   StyleSheet,
+  Alert,
   View, TouchableHighlight,
 } from 'react-native';
-import * as yup from 'yup';
+import { connect } from 'react-redux';
+// import * as yup from 'yup';
 import { Formik } from 'formik';
-import {Login} from '../server/ApiCalls';
+// import {Login} from '../server/ApiCalls';
+import {validateCardNumber,validateCvv,validateExpDate,validateStringInput} from '../Validation';
+import {submitForm} from '../redux/form/form.actions';
 
 
-
-const validationSchema = yup.object().shape({
-  cardNumber: yup.string().matches(/^[0-9]{16}(?:[0-9]{1})?$/, 'Incorrect card number format').required().label('Card Number'),
-  expDate: yup.string().matches(/^\d{2}\/\d{2}$/, 'Exp Date format mm/yy').required().label('Expiration Date'),
-  cvv: yup.string().matches(/^[0-9]{3,4}$/, 'CVV code format is 3 or 4 digits').required().label('CVV'),
-  firstName: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
-  lastName: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
-  secretQuestion: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
-  secretAnswer: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
-});
+// const validationSchema = yup.object().shape({
+//   cardNumber: yup.string().matches(/^[0-9]{16}(?:[0-9]{1})?$/, 'Incorrect card number format').required().label('Card Number'),
+//   expDate: yup.string().matches(/^\d{2}\/\d{2}$/, 'Exp Date format mm/yy').required().label('Expiration Date'),
+//   cvv: yup.string().matches(/^[0-9]{3,4}$/, 'CVV code format is 3 or 4 digits').required().label('CVV'),
+//   firstName: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
+//   lastName: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
+//   secretQuestion: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
+//   secretAnswer: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
+// });
 
 type Props = {
-  updateStateFromFormikUserInput: (Object)=>Object
+ // updateStateFromFormikUserInput: (Object)=>Object
+  submitForm: Function
 };
 
 
-function FormikUserInput({ updateStateFromFormikUserInput }:Props) {
+function FormikUserInput({ submitForm }:Props) {
   return (
     <ScrollView style={styles.container}>
       <Formik
         validateOnChange={false}
         validateOnBlur={false}
-        onSubmit={(values) => Login(values).then((data) => console.log(data))}
-        validationSchema={validationSchema}
+        onSubmit={(values) => {
+        submitForm(values);
+        }}
+        validate={(values)=>{
+          if(validateCardNumber(values.cardNumber)){
+
+          }
+          if(validateCvv(values.cvvField)){
+
+          }
+          if(validateExpDate(values.expDate)){
+
+          }
+          if(validateStringInput(values.firstName)){
+
+          }
+          if(validateStringInput(values.lastName)){
+
+          }
+          if(validateStringInput(values.secretQuestion)){
+
+          }
+          if(validateStringInput(values.secretAnswer)){
+
+          }
+
+        }
+        }
+
+        // validationSchema={validationSchema}
       >
         {(formikProps) => (
           <View style={styles.container}>
@@ -185,5 +217,8 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapDispatchToProps = dispatch => ({
+  submitForm: values => dispatch(submitForm(values)),
+});
 
-export default FormikUserInput;
+export default connect(null,mapDispatchToProps())(FormikUserInput);

@@ -22,7 +22,7 @@ function ProductForm () {
 
     const onEdit=()=> {
       setEnabledFields(true);
-      Alert.alert('Edit : ');
+      Alert.alert('You can Edit Fields Not');
     };
 
     return (

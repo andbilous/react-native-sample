@@ -5,6 +5,8 @@ import FormikUserInput from './src/components/FormikUserInput';
 import FormikUserOutput from './src/components/FormikUserOutput';
 import LongFlatList from './src/components/LongFlatList/LongFlatList';
 import ProductForm from './src/components/ProductForm/ProductForm';
+import {Provider} from 'react-redux';
+import {store} from './src/redux/store';
 
 type Props={ }
 
@@ -40,13 +42,13 @@ class App extends React.Component<Props, State> {
   render() {
     const { userData } = this.state;
     return (
+      <Provider store={store}>
       <SafeAreaView>
-        {/*<FormikUserInput updateStateFromFormikUserInput={this.updateStateFromFormikUserInput} />*/}
-        {/*<FormikUserOutput dataToRenderFromApp={userData} />*/}
-        {/*<LongFlatList/>*/}
-        {/*<LongFlatList />*/}
-        <ProductForm />
+        <FormikUserInput updateStateFromFormikUserInput={this.updateStateFromFormikUserInput} />
+        <FormikUserOutput dataToRenderFromApp={userData} />
+        {/*<ProductForm />*/}
       </SafeAreaView>
+      </Provider>
     );
   }
 }
