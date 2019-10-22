@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image,Alert,Picker } from 'react-native';
-import { SaveItem} from '../../server/ApiCalls';
+// import { SaveItem} from '../../server/ApiCalls';
 
 
 function ProductForm () {

@@ -1,8 +1,9 @@
 // @flow
 import React from 'react';
-import { SafeAreaView } from 'react-native';
-import FormikUserInput from './src/components/FormikUserInput';
-import FormikUserOutput from './src/components/FormikUserOutput';
+import { SafeAreaView,ActivityIndicator } from 'react-native';
+import {connect} from 'react-redux';
+import {FormikUserInput} from './src/components/FormikUserInput';
+import {FormikUserOutput} from './src/components/FormikUserOutput';
 import LongFlatList from './src/components/LongFlatList/LongFlatList';
 import ProductForm from './src/components/ProductForm/ProductForm';
 import {Provider} from 'react-redux';
@@ -16,6 +17,7 @@ type State = {
 }
 
 class App extends React.Component<Props, State> {
+
   constructor() {
     super();
     this.state = {
@@ -40,16 +42,21 @@ class App extends React.Component<Props, State> {
   }
 
   render() {
-    const { userData } = this.state;
+    const {isLoading} = this.props;
+    console.log(isLoading);
     return (
       <Provider store={store}>
       <SafeAreaView>
-        <FormikUserInput updateStateFromFormikUserInput={this.updateStateFromFormikUserInput} />
-        <FormikUserOutput dataToRenderFromApp={userData} />
+        <FormikUserInput />
+        <ActivityIndicator size="large" color="#0000ff" />
         {/*<ProductForm />*/}
       </SafeAreaView>
       </Provider>
     );
   }
 }
-export default App;
+const AppContainer = connect(
+  (state)=>({ isLoading:state.isLoading }),
+)(App);
+
+export default  AppContainer ;

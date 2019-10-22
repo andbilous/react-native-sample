@@ -6,7 +6,6 @@ import {
   TextInput,
   ScrollView,
   StyleSheet,
-  Alert,
   View, TouchableHighlight,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -28,44 +27,18 @@ import {submitForm} from '../redux/form/form.actions';
 // });
 
 type Props = {
- // updateStateFromFormikUserInput: (Object)=>Object
   submitForm: Function
 };
 
 
-function FormikUserInput({ submitForm }:Props) {
+function FormikUserInput({submitForm}) {
   return (
     <ScrollView style={styles.container}>
       <Formik
         validateOnChange={false}
         validateOnBlur={false}
-        onSubmit={(values) => {
-        submitForm(values);
-        }}
-        validate={(values)=>{
-          if(validateCardNumber(values.cardNumber)){
-
-          }
-          if(validateCvv(values.cvvField)){
-
-          }
-          if(validateExpDate(values.expDate)){
-
-          }
-          if(validateStringInput(values.firstName)){
-
-          }
-          if(validateStringInput(values.lastName)){
-
-          }
-          if(validateStringInput(values.secretQuestion)){
-
-          }
-          if(validateStringInput(values.secretAnswer)){
-
-          }
-
-        }
+        onSubmit={values =>{
+          submitForm(values)}
         }
 
         // validationSchema={validationSchema}
@@ -217,8 +190,10 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapDispatchToProps = dispatch => ({
-  submitForm: values => dispatch(submitForm(values)),
-});
+const FormikUserInputContainer = connect(
+  null, {submitForm})(FormikUserInput)
 
-export default connect(null,mapDispatchToProps())(FormikUserInput);
+export  {FormikUserInputContainer as FormikUserInput};
+
+
+
