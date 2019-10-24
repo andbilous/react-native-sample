@@ -1,13 +1,11 @@
-// @flow
 import React from 'react';
 import {
   StyleSheet, TextInput, View, Text
 } from 'react-native';
 
-
 type Props = {
-  cardType:string
-};
+  cardType: string,
+}
 
 const CardTypeOutput = ({ cardType }: Props) => (
   <View style={styles.container}>
@@ -19,8 +17,8 @@ const CardTypeOutput = ({ cardType }: Props) => (
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
-  }
+    justifyContent: 'space-between',
+  },
 });
 
 export default CardTypeOutput;

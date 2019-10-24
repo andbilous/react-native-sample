@@ -1,4 +1,6 @@
-import {combineReducers} from 'redux'
-import {formReducer} from '../form/form.reducer';
+// flow
+import { combineReducers } from 'redux';
+import { creditCardInfoReducer } from '../creditCardInfo/creditCardInfo.reducer';
 
-export const rootReducer = combineReducers({ formReducer })
+// eslint-disable-next-line import/prefer-default-export
+export const rootReducer = combineReducers({ creditCardInfoReducer });

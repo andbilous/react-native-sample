@@ -1,4 +1,3 @@
-
 // @flow
 import React from 'react';
 import {
@@ -6,42 +5,23 @@ import {
   TextInput,
   ScrollView,
   StyleSheet,
-  View, TouchableHighlight,
+  View, TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
-// import * as yup from 'yup';
 import { Formik } from 'formik';
-// import {Login} from '../server/ApiCalls';
-import {validateCardNumber,validateCvv,validateExpDate,validateStringInput} from '../Validation';
-import {submitForm} from '../redux/form/form.actions';
-
-
-// const validationSchema = yup.object().shape({
-//   cardNumber: yup.string().matches(/^[0-9]{16}(?:[0-9]{1})?$/, 'Incorrect card number format').required().label('Card Number'),
-//   expDate: yup.string().matches(/^\d{2}\/\d{2}$/, 'Exp Date format mm/yy').required().label('Expiration Date'),
-//   cvv: yup.string().matches(/^[0-9]{3,4}$/, 'CVV code format is 3 or 4 digits').required().label('CVV'),
-//   firstName: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
-//   lastName: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
-//   secretQuestion: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
-//   secretAnswer: yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
-// });
+import { submitForm } from '../../redux/creditCardInfo/creditCardInfo.actions';
 
 type Props = {
-  submitForm: Function
-};
+  errors:[]
+}
 
-
-function FormikUserInput({submitForm}) {
+function FormikUserInput(props:Props) {
   return (
     <ScrollView style={styles.container}>
       <Formik
         validateOnChange={false}
         validateOnBlur={false}
-        onSubmit={values =>{
-          submitForm(values)}
-        }
-
-        // validationSchema={validationSchema}
+        onSubmit={(values) => { submitForm(values); }}
       >
         {(formikProps) => (
           <View style={styles.container}>
@@ -49,7 +29,7 @@ function FormikUserInput({submitForm}) {
               <Text>Card Number</Text>
               <TextInput
                 placeholder="1111111111111111"
-                style={styles.inputStyle}
+                style={!props.errors.includes('cardNumber') ? styles.inputStyle : styles.errorInputStyle}
                 onChangeText={formikProps.handleChange('cardNumber')}
                 onBlur={formikProps.handleBlur('cardNumber')}
                 autoFocus
@@ -63,7 +43,7 @@ function FormikUserInput({submitForm}) {
                 <Text>Expiration Date</Text>
                 <TextInput
                   placeholder="12/20"
-                  style={styles.inputStyle}
+                  style={!props.errors.includes('expDate') ? styles.inputStyle : styles.errorInputStyle}
                   onChangeText={formikProps.handleChange('expDate')}
                   onBlur={formikProps.handleBlur('expDate')}
                 />
@@ -76,7 +56,7 @@ function FormikUserInput({submitForm}) {
                 <Text>CVV</Text>
                 <TextInput
                   placeholder="331"
-                  style={styles.inputStyle}
+                  style={!props.errors.includes('cvv') ? styles.inputStyle : styles.errorInputStyle}
                   onChangeText={formikProps.handleChange('cvv')}
                 />
                 <Text style={{ color: 'red' }}>
@@ -89,7 +69,7 @@ function FormikUserInput({submitForm}) {
               <Text>First Name</Text>
               <TextInput
                 placeholder="firstName"
-                style={styles.inputStyle}
+                style={!props.errors.includes('firstName') ? styles.inputStyle : styles.errorInputStyle}
                 onChangeText={formikProps.handleChange('firstName')}
                 onBlur={formikProps.handleBlur('firstName')}
               />
@@ -102,7 +82,7 @@ function FormikUserInput({submitForm}) {
               <Text style={styles.inputLabel}>Last Name</Text>
               <TextInput
                 placeholder="lastName"
-                style={styles.inputStyle}
+                style={!props.errors.includes('lastName') ? styles.inputStyle : styles.errorInputStyle}
                 onChangeText={formikProps.handleChange('lastName')}
                 onBlur={formikProps.handleBlur('lastName')}
               />
@@ -115,7 +95,7 @@ function FormikUserInput({submitForm}) {
               <Text style={styles.inputLabel}>Secret Question</Text>
               <TextInput
                 placeholder="secretQuestion"
-                style={styles.inputStyle}
+                style={!props.errors.includes('secretQuestion') ? styles.inputStyle : styles.errorInputStyle}
                 onChangeText={formikProps.handleChange('secretQuestion')}
                 onBlur={formikProps.handleBlur('secretQuestion')}
               />
@@ -128,7 +108,7 @@ function FormikUserInput({submitForm}) {
               <Text style={styles.inputLabel}>Secret Answer</Text>
               <TextInput
                 placeholder="secretAnswer"
-                style={styles.inputStyle}
+                style={!props.errors.includes('secretAnswer') ? styles.inputStyle : styles.errorInputStyle}
                 onChangeText={formikProps.handleChange('secretAnswer')}
                 onBlur={formikProps.handleBlur('secretAnswer')}
               />
@@ -187,13 +167,22 @@ const styles = StyleSheet.create({
   errorTextStyle: {
     color: 'red',
     marginBottom: 5
+  },
+  errorInputStyle: {
+    borderWidth: 1,
+    borderColor: 'red',
+    padding: 10,
+    marginBottom: 5,
+    borderRadius: 6,
   }
+
 });
 
 const FormikUserInputContainer = connect(
-  null, {submitForm})(FormikUserInput)
+  (state) => ({
+    errors: state.creditCardInfoReducer.errors
+  }), { submitForm }
+)(FormikUserInput);
 
-export  {FormikUserInputContainer as FormikUserInput};
-
-
-
+// eslint-disable-next-line import/prefer-default-export
+export { FormikUserInputContainer as FormikUserInput };
