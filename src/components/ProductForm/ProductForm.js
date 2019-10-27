@@ -26,7 +26,18 @@ function ProductForm() {
     setEnabledFields(true);
     Alert.alert('You can Edit Fields Not');
   };
-
+  const handleChangeName = (value) => {
+    setName(value);
+  };
+  const handleChangeWeight = (value) => {
+    setWeight(value);
+  };
+  const handleChangeSize = (value) => {
+    setSize(value);
+  };
+  const handleChangeMadeIn = (value) => {
+    setMadeIn(value);
+  };
   return (
     <View style={styles.container}>
       <Image
@@ -61,7 +72,7 @@ function ProductForm() {
           editable={enabledFields}
           placeholder="Name"
           underlineColorAndroid="transparent"
-          onChangeText={(value) => setName(value)}
+          onChangeText={handleChangeName}
         />
       </View>
 
@@ -73,7 +84,7 @@ function ProductForm() {
           placeholder="Weight"
           keyboardType="numeric"
           underlineColorAndroid="transparent"
-          onChangeText={(value) => setWeight(value)}
+          onChangeText={handleChangeWeight}
         />
       </View>
 
@@ -85,7 +96,7 @@ function ProductForm() {
           placeholder="Size"
           keyboardType="numeric"
           underlineColorAndroid="transparent"
-          onChangeText={(value) => setSize(value)}
+          onChangeText={handleChangeSize}
         />
       </View>
 
@@ -93,7 +104,7 @@ function ProductForm() {
         enabled={enabledFields}
         selectedValue={madeIn}
         style={{ height: 50, width: 50 }}
-        onValueChange={(itemValue) => setMadeIn(itemValue)}
+        onValueChange={handleChangeMadeIn}
       >
         <Picker.Item label="USA" value="us" />
         <Picker.Item label="Ukraine" value="ukr" />
